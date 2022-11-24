@@ -41,10 +41,46 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct AppWidgetEntryView : View {
+    
     var entry: Provider.Entry
-
+    
     var body: some View {
-        Text(entry.date, style: .time)
+        VStack{
+            
+            Text("Select tab")
+            
+            HStack{
+                if let _ = homeLinkUrl{
+                    Text("Home")
+                        .padding(4)
+                        .background(Color.blue.opacity(0.7))
+                        .cornerRadius(6)
+//                        .widgetURL(homeLinkUrl)
+                }
+                
+                if let settingsLinkUrl = settingsLinkUrl{
+                    Text("Settings")
+                        .padding(4)
+                        .background(Color.blue.opacity(0.7))
+                        .cornerRadius(6)
+                        .widgetURL(settingsLinkUrl)
+                }
+            }
+            .foregroundColor(.white)
+            
+//            Text("Statistics")
+            
+            Spacer()
+        }
+        .padding(.vertical)
+    }
+    
+    private var homeLinkUrl: URL?{
+        URL(string: "widget-deeplink://homeapp")
+    }
+        
+    private var settingsLinkUrl: URL?{
+        URL(string: "widget-deeplink://settings.app")
     }
 }
 

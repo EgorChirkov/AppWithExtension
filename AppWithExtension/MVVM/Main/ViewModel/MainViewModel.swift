@@ -11,4 +11,19 @@ class MainViewModel: ObservableObject{
     
     @Published var selection: Int = 0
     
+    func onOpenFromWidget(with url: URL){
+        guard let host = url.host else{
+            return
+        }
+        
+        print(host)
+        
+        if host.contains("home"){
+            selection = 0
+        }
+        
+        if host.contains("settings"){
+            selection = 1
+        }
+    }
 }

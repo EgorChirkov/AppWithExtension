@@ -15,19 +15,25 @@ struct MainView: View {
         
         TabView(selection: $viewModel.selection) {
             
-            Text("Home View")
+            HomeView()
                 .tabItem {
                     Image(systemName: "house")
                     Text("Home")
                 }
                 .tag(0)
             
-            Text("Settings View")
+            SettingsView()
                 .tabItem {
                     Image(systemName: "gearshape")
                     Text("Settings")
                 }
                 .tag(1)
+        }
+        .onOpenURL { url in
+            guard url.scheme == "widget-deeplink" else {
+                return
+            }
+            viewModel.onOpenFromWidget(with: url)
         }
     }
 }
