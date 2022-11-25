@@ -18,11 +18,11 @@ class MainViewModel: ObservableObject{
         
         print(host)
         
-        if host.contains("home"){
+        if host.contains("text"){
             selection = 0
         }
         
-        if host.contains("settings"){
+        if host.contains("numbers"){
             selection = 1
         }
     }

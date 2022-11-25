@@ -50,20 +50,20 @@ struct AppWidgetEntryView : View {
             Text("Select tab")
             
             HStack{
-                if let _ = homeLinkUrl{
-                    Text("Home")
+                if let _ = textLinkUrl{
+                    Text("Text")
                         .padding(4)
                         .background(Color.blue.opacity(0.7))
                         .cornerRadius(6)
-//                        .widgetURL(homeLinkUrl)
+//                        .widgetURL(textLinkUrl)
                 }
                 
-                if let settingsLinkUrl = settingsLinkUrl{
-                    Text("Settings")
+                if let numbersLinkUrl = numbersLinkUrl{
+                    Text("Numbers")
                         .padding(4)
                         .background(Color.blue.opacity(0.7))
                         .cornerRadius(6)
-                        .widgetURL(settingsLinkUrl)
+                        .widgetURL(numbersLinkUrl)
                 }
             }
             .foregroundColor(.white)
@@ -75,12 +75,12 @@ struct AppWidgetEntryView : View {
         .padding(.vertical)
     }
     
-    private var homeLinkUrl: URL?{
-        URL(string: "widget-deeplink://homeapp")
+    private var textLinkUrl: URL?{
+        URL(string: "widget-deeplink://text.app")
     }
         
-    private var settingsLinkUrl: URL?{
-        URL(string: "widget-deeplink://settings.app")
+    private var numbersLinkUrl: URL?{
+        URL(string: "widget-deeplink://numbers.app")
     }
 }
 

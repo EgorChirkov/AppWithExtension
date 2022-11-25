@@ -7,28 +7,33 @@
 
 import SwiftUI
 
+class GlobalAppData: ObservableObject{
+    @Published var repeatedWordsDict: [String: Int] = [:]
+}
+
 struct MainView: View {
     
     @StateObject private var viewModel: MainViewModel = .init()
+    
+    @StateObject private var globalAppData: GlobalAppData = .init()
     
     var body: some View {
         
         TabView(selection: $viewModel.selection) {
             
-            HomeView()
+            TextView()
                 .tabItem {
-                    Image(systemName: "house")
-                    Text("Home")
+                    Image(systemName: "textformat")
                 }
                 .tag(0)
             
-            SettingsView()
+            NumbersView()
                 .tabItem {
-                    Image(systemName: "gearshape")
-                    Text("Settings")
+                    Image(systemName: "list.number")
                 }
                 .tag(1)
         }
+        .environmentObject(globalAppData)
         .onOpenURL { url in
             guard url.scheme == "widget-deeplink" else {
                 return
