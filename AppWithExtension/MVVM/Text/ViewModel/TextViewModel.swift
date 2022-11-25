@@ -36,7 +36,6 @@ class TextViewModel: ObservableObject{
         self.globalData = data
         
         $text
-            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .receive(on: DispatchQueue.main)
             .sink { newValue in
                 
@@ -46,7 +45,6 @@ class TextViewModel: ObservableObject{
             .store(in: &cancellable)
         
         $words
-            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .receive(on: DispatchQueue.main)
             .sink { newValue in
                 
@@ -62,13 +60,12 @@ class TextViewModel: ObservableObject{
         cancellable.removeAll()
     }
     
-    func fetchCount(){
+    private func fetchCount(){
         
         guard let globalData = globalData else {
             return
         }
         
-        globalData.repeatedWordsDict =  words.reduce(into: [:]) { counts, word in counts[word, default: 0] += 1 }
-        
+        globalData.repeatedWordsDict = words.reduce(into: [:]) { counts, word in counts[word, default: 0] += 1 }
     }
 }
