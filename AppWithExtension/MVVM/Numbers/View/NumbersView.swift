@@ -16,7 +16,7 @@ struct NumbersView: View {
     var body: some View {
         NavigationView {
             
-            VStack{
+            VStack(spacing: 20){
                 
                 Picker("", selection: $viewModel.selection) {
                     ForEach(0..<viewModel.segments.count) { index in
@@ -28,32 +28,30 @@ struct NumbersView: View {
                 .pickerStyle(.segmented)
                 .padding(.horizontal)
                 
+                TextField("Search", text: $viewModel.searchText)
+                    .padding(4)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5).stroke(Color(#colorLiteral(red: 0.675, green: 0.675, blue: 0.675, alpha: 1)), lineWidth: 1)
+                        
+                    )
+                    .padding(.horizontal)
+                
                 if viewModel.selection == 0{
                     List{
                         ForEach(viewModel.items, id: \.id) { item in
-                            HStack{
-                                Text(item.word)
-                                
-                                Spacer()
-                                
-                                Text("\(item.count)")
-                            }
+                            ListItemRow(item: item)
                         }
                     }
+                    .listStyle(.plain)
                 }
                 
                 if viewModel.selection == 1{
                     List{
                         ForEach(viewModel.itemsTop.prefix(10), id: \.id) { item in
-                            HStack{
-                                Text(item.word)
-                                
-                                Spacer()
-                                
-                                Text("\(item.count)")
-                            }
+                            ListItemRow(item: item)
                         }
                     }
+                    .listStyle(.plain)
                 }
             }
             
@@ -69,5 +67,20 @@ struct NumbersView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         NumbersView()
+    }
+}
+
+private struct ListItemRow: View {
+    
+    let item: ListItem
+    
+    var body: some View {
+        HStack{
+            Text(item.word)
+            
+            Spacer()
+            
+            Text("\(item.count)")
+        }
     }
 }
