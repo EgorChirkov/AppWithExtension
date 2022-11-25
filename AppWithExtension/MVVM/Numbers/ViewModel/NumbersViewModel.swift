@@ -49,13 +49,16 @@ class NumbersViewModel: ObservableObject{
             .receive(on: DispatchQueue.main)
             .sink { newValue in
                 
+                guard !newValue.isEmpty else {
+                    self.fetchListItems()
+                    return
+                }
+                
                 let searchItems = self.items.filter({ $0.word.lowercased().contains(newValue.lowercased()) })
                 self.items = searchItems
                 self.itemsTop = searchItems.sorted(by: { $0.count > $1.count })
                 
-                if newValue.isEmpty{
-                    self.fetchListItems()
-                }
+                globalAppData.searchHistory.append(newValue)
             }
             .store(in: &cancellable)
     }

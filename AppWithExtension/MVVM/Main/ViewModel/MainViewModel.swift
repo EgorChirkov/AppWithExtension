@@ -16,7 +16,7 @@ class MainViewModel: ObservableObject{
             return
         }
         
-        print(host)
+        debugPrint(host)
         
         if host.contains("text"){
             selection = 0

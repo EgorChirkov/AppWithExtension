@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-class GlobalAppData: ObservableObject{
-    @Published var repeatedWordsDict: [String: Int] = [:]
-}
-
 struct MainView: View {
     
     @StateObject private var viewModel: MainViewModel = .init()
@@ -32,6 +28,12 @@ struct MainView: View {
                     Image(systemName: "list.number")
                 }
                 .tag(1)
+            
+            SearchHistoryView()
+                .tabItem {
+                    Image(systemName: "doc.text.magnifyingglass")
+                }
+                .tag(2)
         }
         .environmentObject(globalAppData)
         .onOpenURL { url in

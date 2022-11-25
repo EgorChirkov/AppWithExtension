@@ -30,10 +30,10 @@ class TextViewModel: ObservableObject{
     
     private var cancellable: Set<AnyCancellable> = []
     
-    private var globalData: GlobalAppData? = nil
+    private var globalAppData: GlobalAppData? = nil
     
-    func onAppear(for data: GlobalAppData){
-        self.globalData = data
+    func onAppear(for globalAppData: GlobalAppData){
+        self.globalAppData = globalAppData
         
         $text
             .receive(on: DispatchQueue.main)
@@ -62,10 +62,10 @@ class TextViewModel: ObservableObject{
     
     private func fetchCount(){
         
-        guard let globalData = globalData else {
+        guard let globalAppData = globalAppData else {
             return
         }
         
-        globalData.repeatedWordsDict = words.reduce(into: [:]) { counts, word in counts[word, default: 0] += 1 }
+        globalAppData.repeatedWordsDict = words.reduce(into: [:]) { counts, word in counts[word, default: 0] += 1 }
     }
 }
