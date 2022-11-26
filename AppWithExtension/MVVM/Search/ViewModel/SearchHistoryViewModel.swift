@@ -7,9 +7,14 @@
 
 import Foundation
 
+struct SearchQueryItem: Identifiable{
+    let id = UUID()
+    let query: String
+}
+
 class SearchHistoryViewModel: ObservableObject{
     
-    @Published var searchQueries: [String] = [String]()
+    @Published var searchQueries: [SearchQueryItem] = [SearchQueryItem]()
     
     private var globalAppData: GlobalAppData? = nil
     
@@ -29,7 +34,7 @@ class SearchHistoryViewModel: ObservableObject{
         let queries = globalAppData.searchHistory
         
         for query in queries {
-            searchQueries.append(query)
+            searchQueries.append(SearchQueryItem(query: query))
         }
     }
 }

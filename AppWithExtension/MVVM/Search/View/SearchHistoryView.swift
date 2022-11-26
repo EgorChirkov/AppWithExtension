@@ -17,10 +17,11 @@ struct SearchHistoryView: View {
         NavigationView {
             VStack{
                 List{
-                    ForEach(viewModel.searchQueries, id: \.self){ item in
-                        Text(item)
+                    ForEach(viewModel.searchQueries, id: \.id){ item in
+                        Text(item.query)
                     }
                 }
+                .listStyle(.plain)
             }
             .navigationTitle("Search History")
             

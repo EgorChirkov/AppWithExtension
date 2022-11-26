@@ -28,6 +28,8 @@ class NumbersViewModel: ObservableObject{
     
     private var cancellable: Set<AnyCancellable> = []
     
+    private var dispatchWorkItem: DispatchWorkItem? = nil
+    
     var segments: [String] = ["All", "Top"]
     
     func onDisappear(){
@@ -54,13 +56,36 @@ class NumbersViewModel: ObservableObject{
                     return
                 }
                 
-                let searchItems = self.items.filter({ $0.word.lowercased().contains(newValue.lowercased()) })
-                self.items = searchItems
-                self.itemsTop = searchItems.sorted(by: { $0.count > $1.count })
+                self.fetchSearchResults(with: newValue)
                 
-                globalAppData.searchHistory.append(newValue)
             }
             .store(in: &cancellable)
+    }
+    
+    private func fetchSearchResults(with query: String){
+        
+        dispatchWorkItem?.cancel()
+        
+        let workItem = DispatchWorkItem{ [weak self] in
+            
+            guard let self = self else {
+                return
+            }
+            
+            let searchItems = self.items.filter({ $0.word.lowercased().contains(query.lowercased()) })
+            self.items = searchItems
+            self.itemsTop = searchItems.sorted(by: { $0.count > $1.count })
+            
+            guard let globalAppData = self.globalAppData else {
+                return
+            }
+            
+            globalAppData.searchHistory.append(query)
+        }
+        
+        dispatchWorkItem = workItem
+        
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: workItem)
     }
     
     private func fetchListItems(){
